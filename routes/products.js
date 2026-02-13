@@ -9,14 +9,19 @@ router.get('/',(req,res)=>{
    
     res.send(`All products are: ${products.map(p=>p.name).join(',')}`);
 });
-router.get('/:id',(req,res)=>{
-    const productId=parseInt(req.params.id);
-    const product=products.find(p=>p.id===productId);
-    if(!product){
-        return res.status(404).send("Product not found");
-    }
-    res.send(product);
+router.get('/:id', (req,res,next)=>{
+  
+  const product = null; // simulate error
+
+  if(!product){
+    const error = new Error("Product not found");
+    error.status = 404;
+    return next(error);
+  }
+
+  res.send(product);
 });
+
 router.post('/',(req,res)=>{
     const newProduct={
         id:products.length+1,   
